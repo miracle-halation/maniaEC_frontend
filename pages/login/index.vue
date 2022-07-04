@@ -6,19 +6,6 @@
 		<form @submit.prevent="submit">
 			<ValidationProvider
 				v-slot="{ errors }"
-				name="Name"
-				rules="required|max:10"
-			>
-				<v-text-field
-					v-model="name"
-					:counter="10"
-					:error-messages="errors"
-					label="Name"
-					required
-				></v-text-field>
-			</ValidationProvider>
-			<ValidationProvider
-				v-slot="{ errors }"
 				name="email"
 				rules="required|email"
 			>
@@ -30,10 +17,24 @@
 				></v-text-field>
 			</ValidationProvider>
 
+			<ValidationProvider
+				v-slot="{ errors }"
+				name="Password"
+				rules="required|max:20"
+			>
+				<v-text-field
+					v-model="password"
+					:counter="20"
+					:error-messages="errors"
+					label="Password"
+					required
+				></v-text-field>
+			</ValidationProvider>
 			<v-btn
 				class="mr-4"
 				type="submit"
 				:disabled="invalid"
+				:click="submit"
 			>
 				submit
 			</v-btn>
@@ -42,17 +43,22 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
 	name:'login',
 	data() {
 		return {
-			name: '',
-			email: ''
+			email: '',
+			password: ''
 		}
 	},
 	methods:{
 		submit(){
-			return true
+			axios.get('http://localhost:8000/api/companies/')
+				.then((response) => (
+					console.log(response)
+				))
 		}
 	}
 }
